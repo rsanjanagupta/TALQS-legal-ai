@@ -6,6 +6,9 @@ import re
 from app.services.extractor import extract_pages_from_pdf
 from app.services.embedder import generate_embeddings
 from app.services.vector_store import store_embeddings
+import app.services.vector_store as vector_store
+from app.services.vector_store import reset_vector_store
+
 
 router = APIRouter()
 
@@ -78,7 +81,23 @@ async def upload_document(file: UploadFile = File(...)):
     store_embeddings(embeddings, metadata)
 
     return {
-        "message": f"{file.filename} uploaded and processed successfully",
-        "total_pages": len(pages),
-        "chunks_created": len(chunks)
+    "success": True,
+    "filename": file.filename,
+    "total_pages": len(pages),
+    "chunks_created": len(chunks)
+}
+
+@router.get("/status")
+def document_status():
+    return {
+        "document_loaded": len(vector_store.metadata_store) > 0
+    }
+
+
+@router.delete("/reset")
+def reset_document():
+    reset_vector_store()
+    return {
+        "success": True,
+        "message": "Document index cleared successfully"
     }
