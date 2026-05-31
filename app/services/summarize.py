@@ -4,11 +4,10 @@ from transformers import LEDTokenizer, LEDForConditionalGeneration
 from app.services.extractor import extract_pages_from_pdf
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model_name = "allenai/led-base-16384"
 
-model_path = "storage/legal_led_model"
-
-tokenizer = LEDTokenizer.from_pretrained(model_path)
-model = LEDForConditionalGeneration.from_pretrained(model_path)
+tokenizer = LEDTokenizer.from_pretrained(model_name)
+model = LEDForConditionalGeneration.from_pretrained(model_name)
 model.to(device)
 model.eval()
 
