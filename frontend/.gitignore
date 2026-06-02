@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+__pycache__/
+*.pyc
+venv/
+.env
+storage/documents/
+storage/indexes/
+storage/legal_led_model/
