@@ -22,7 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-<<<<<<< HEAD
 
 __pycache__/
 *.pyc
@@ -31,5 +30,3 @@ venv/
 storage/documents/
 storage/indexes/
 storage/legal_led_model/
-=======
->>>>>>> 17c81d33967c1dd04b1a88b5918df0d298cd6152
