@@ -1,7 +1,11 @@
 import axios from 'axios'
 
 const api = axios.create({
+<<<<<<< HEAD
   baseURL: 'https://sanjanagupta-talqs-legalai.hf.space',
+=======
+  baseURL: 'http://localhost:8000',
+>>>>>>> 17c81d33967c1dd04b1a88b5918df0d298cd6152
   withCredentials: true,
 })
 
@@ -37,10 +41,18 @@ export const summarizeDocument = (userId, filename) => {
 // ── History ───────────────────────────────────────────────────────────────────
 // Backend: GET /history/qa/{user_id}  → { count, history: [...] }
 export const fetchQAHistory = (user_id) =>
+<<<<<<< HEAD
   api.get(`/qa/history/${user_id}`)
 
 export const fetchSummaryHistory = (user_id) =>
   api.get(`/summaries/history/${user_id}`)
+=======
+  axios.get(`http://localhost:8000/qa/history/${user_id}`)
+
+// Backend: GET /history/summaries/{user_id}  → { count, summaries: [...] }
+export const fetchSummaryHistory = (user_id) =>
+  axios.get(`http://localhost:8000/summaries/history/${user_id}`)
+>>>>>>> 17c81d33967c1dd04b1a88b5918df0d298cd6152
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 // Backend: POST /auth/google  expects { google_id, email, name, picture }
