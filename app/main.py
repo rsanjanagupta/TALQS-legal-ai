@@ -15,7 +15,7 @@ app.add_middleware(
     "http://localhost:3000",
     "http://localhost:5173",
     "https://talqs-legal-ai.vercel.app",
-]  # React dev server
+] , # React dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
