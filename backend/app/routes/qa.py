@@ -20,6 +20,8 @@ async def ask_question(request: QuestionRequest):
         raise HTTPException(status_code=400, detail="Question cannot be empty")
 
     try:
+        print("ASK USER ID =", request.user_id)
+        print("DOCUMENT =", request.document_name)
         retrieved_chunks = retrieve_relevant_chunks(
             request.question,
             request.user_id

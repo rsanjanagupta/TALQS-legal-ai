@@ -12,11 +12,17 @@ def get_index_path(user_id):
 
 def get_metadata_path(user_id):
     return os.path.join(BASE_METADATA_DIR, user_id, "metadata.json")
-
+    
 def retrieve_relevant_chunks(question: str, user_id: str, top_k: int = 3):
 
     index_path = get_index_path(user_id)
     metadata_path = get_metadata_path(user_id)
+
+    print("RETRIEVER USER ID =", user_id)
+    print("INDEX PATH =", index_path)
+    print("INDEX EXISTS =", os.path.exists(index_path))
+    print("METADATA PATH =", metadata_path)
+    print("METADATA EXISTS =", os.path.exists(metadata_path))
 
     if not os.path.exists(index_path):
         raise ValueError("FAISS index not found. Upload documents first.")
