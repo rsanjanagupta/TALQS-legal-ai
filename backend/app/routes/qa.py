@@ -46,5 +46,9 @@ async def ask_question(request: QuestionRequest):
             "pages": pages
         }
 
+    import traceback
+
     except Exception as e:
+        print("ERROR IN /ask")
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
