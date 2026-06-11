@@ -3,7 +3,10 @@ load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import upload, qa,summarize,auth,history
+import os
 
+os.makedirs("storage", exist_ok=True)
+os.makedirs("storage/documents", exist_ok=True)
 app = FastAPI()
 
 app.add_middleware(

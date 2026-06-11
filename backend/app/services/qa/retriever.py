@@ -4,29 +4,34 @@ import numpy as np
 import faiss
 from app.services.embedder import generate_embeddings
 
-INDEX_PATH = "storage/faiss_index.bin"
-METADATA_PATH = "storage/metadata.json"
+BASE_INDEX_DIR = "storage/indexes"
+BASE_METADATA_DIR = "storage/metadata"
 
+def get_index_path(user_id):
+    return os.path.join(BASE_INDEX_DIR, user_id, "faiss_index.bin")
 
-def retrieve_relevant_chunks(question: str, top_k: int = 3):
+def get_metadata_path(user_id):
+    return os.path.join(BASE_METADATA_DIR, user_id, "metadata.json")
 
-    if not os.path.exists(INDEX_PATH):
+def retrieve_relevant_chunks(question: str, user_id: str, top_k: int = 3):
+
+    index_path = get_index_path(user_id)
+    metadata_path = get_metadata_path(user_id)
+
+    if not os.path.exists(index_path):
         raise ValueError("FAISS index not found. Upload documents first.")
 
-    # Load index dynamically
-    index = faiss.read_index(INDEX_PATH)
+    index = faiss.read_index(index_path)
 
-    # Embed question
     question_embedding = generate_embeddings([question])
     question_vector = np.array(question_embedding).astype("float32")
 
-    # Search
     distances, indices = index.search(question_vector, top_k)
 
-    if not os.path.exists(METADATA_PATH):
+    if not os.path.exists(metadata_path):
         raise ValueError("Metadata not found.")
 
-    with open(METADATA_PATH, "r", encoding="utf-8") as f:
+    with open(metadata_path, "r", encoding="utf-8") as f:
         metadata = json.load(f)
 
     results = []

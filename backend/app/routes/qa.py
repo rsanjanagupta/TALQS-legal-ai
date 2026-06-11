@@ -20,8 +20,10 @@ async def ask_question(request: QuestionRequest):
         raise HTTPException(status_code=400, detail="Question cannot be empty")
 
     try:
-        retrieved_chunks = retrieve_relevant_chunks(request.question)
-
+        retrieved_chunks = retrieve_relevant_chunks(
+            request.question,
+            request.user_id
+)
         context = "\n\n".join([chunk["chunk_text"] for chunk in retrieved_chunks])
 
         answer = generate_answer(request.question, context)
