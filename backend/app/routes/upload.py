@@ -50,7 +50,11 @@ async def upload_document(
 ):
     print("DEBUG upload user_id:", user_id)
     print("DEBUG filename:", file.filename)
+    print("INDEX FILE EXISTS AFTER SAVE:",
+      os.path.exists(get_index_path(user_id)))
 
+    print("METADATA FILE EXISTS AFTER SAVE:",
+      os.path.exists(get_metadata_path(user_id)))
     # Create user-specific folders
     user_doc_folder = os.path.join(UPLOAD_DIR, user_id)
     user_index_folder = os.path.join(INDEX_DIR, user_id)
@@ -111,4 +115,13 @@ def reset_document(user_id: str):
     return {
         "success": True,
         "message": "User document index cleared successfully"
+    }
+
+@router.get("/debug/{user_id}")
+def debug(user_id: str):
+    return {
+        "index_exists": os.path.exists(get_index_path(user_id)),
+        "metadata_exists": os.path.exists(get_metadata_path(user_id)),
+        "index_path": get_index_path(user_id),
+        "metadata_path": get_metadata_path(user_id)
     }
