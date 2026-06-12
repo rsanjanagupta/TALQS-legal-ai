@@ -3,14 +3,27 @@ import torch
 from transformers import LEDTokenizer, LEDForConditionalGeneration
 from app.services.extractor import extract_pages_from_pdf
 
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model_path = "storage/legal_led_model"
+model_path = "sanjanagupta/legal-led-model"
 
-tokenizer = LEDTokenizer.from_pretrained(model_path)
-model = LEDForConditionalGeneration.from_pretrained(model_path)
-model.to(device)
-model.eval()
+tokenizer = None
+model = None
+
+def load_model():
+    global tokenizer, model
+
+    if tokenizer is None:
+        print("Loading LED model...")
+
+        tokenizer = LEDTokenizer.from_pretrained(model_path)
+        model = LEDForConditionalGeneration.from_pretrained(model_path)
+
+        model.to(device)
+        model.eval()
+
+        print("LED model loaded")
 
 max_input_length = 4096
 
@@ -23,7 +36,7 @@ def summarize_pdf(file_path):
     4. Save summary
     5. Return summary
     """
-
+    load_model()
     filename = os.path.splitext(os.path.basename(file_path))[0]
 
     # 1️⃣ Extract page-level text
