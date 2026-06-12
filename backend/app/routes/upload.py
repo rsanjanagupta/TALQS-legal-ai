@@ -5,8 +5,12 @@ import re
 
 from app.services.extractor import extract_pages_from_pdf
 from app.services.embedder import generate_embeddings
-from app.services.vector_store import store_embeddings, reset_vector_store
-import app.services.vector_store as vector_store
+from app.services.vector_store import (
+    store_embeddings,
+    reset_vector_store,
+    get_index_path,
+    get_metadata_path
+)import app.services.vector_store as vector_store
 
 router = APIRouter()
 
@@ -50,11 +54,7 @@ async def upload_document(
 ):
     print("DEBUG upload user_id:", user_id)
     print("DEBUG filename:", file.filename)
-    print("INDEX FILE EXISTS AFTER SAVE:",
-      os.path.exists(get_index_path(user_id)))
 
-    print("METADATA FILE EXISTS AFTER SAVE:",
-      os.path.exists(get_metadata_path(user_id)))
     # Create user-specific folders
     user_doc_folder = os.path.join(UPLOAD_DIR, user_id)
     user_index_folder = os.path.join(INDEX_DIR, user_id)
@@ -92,6 +92,11 @@ async def upload_document(
     reset_vector_store(user_id)
     store_embeddings(embeddings, metadata, user_id)
 
+    print("INDEX FILE EXISTS:",
+        os.path.exists(get_index_path(user_id)))
+
+    print("METADATA FILE EXISTS:",
+        os.path.exists(get_metadata_path(user_id)))
     return {
         "success": True,
         "message": f"{file.filename} uploaded and indexed successfully",
