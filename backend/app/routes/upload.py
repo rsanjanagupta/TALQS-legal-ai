@@ -10,7 +10,8 @@ from app.services.vector_store import (
     reset_vector_store,
     get_index_path,
     get_metadata_path
-)import app.services.vector_store as vector_store
+)
+import app.services.vector_store as vector_store
 
 router = APIRouter()
 
